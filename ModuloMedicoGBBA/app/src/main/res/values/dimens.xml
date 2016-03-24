@@ -1,0 +1,27 @@
+<resources>
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+    <dimen name="activity_padding">8dp</dimen>
+    <dimen name="fab_margin">16dp</dimen>
+    <dimen name="item_padding">10dp</dimen>
+
+
+    <!-- Size de items -->
+    <dimen name="ficha_size_valores">72dp</dimen>
+    <dimen name="ficha_size_padding">8dp</dimen>
+    <dimen name="ficha_ancho_botones">70dp</dimen>
+    <dimen name="ficha_padding_botones">12dp</dimen>
+
+    <!-- Texto -->
+    <dimen name="size_nombre_sujeto">30sp</dimen>
+    <dimen name="size_fecha_medicion">25sp</dimen>
+    <dimen name="size_valores_ficha">20sp</dimen>
+    <dimen name="size_nombre_valores_ficha">18sp</dimen>
+    <dimen name="size_fecha">15sp</dimen>
+    <dimen name="item_list_textsize">16sp</dimen>
+    <dimen name="boton_texto">14sp</dimen>
+    <dimen name="size_disp_asociados">25sp</dimen>
+
+
+</resources>

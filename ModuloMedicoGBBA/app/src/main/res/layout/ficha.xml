@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="@dimen/activity_padding">
+
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:text="@string/ficha_texto_fechamedicion"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textSize="@dimen/size_fecha_medicion" />
+
+
+    <TextView
+        android:id="@+id/ficha_fecha"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:padding="@dimen/ficha_size_padding"
+        android:text="@string/ficha_texto_fecha"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:textSize="@dimen/size_fecha" />
+
+    <View
+        android:id="@+id/lineahor"
+        android:layout_width="fill_parent"
+        android:layout_height="2dp"
+        android:background="#c0c0c0"
+        android:padding="@dimen/activity_padding" />
+
+    <ScrollView
+        android:id="@+id/scrollView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center_horizontal">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <!-- ALTURA -->
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/ficha_size_valores"
+                android:padding="@dimen/item_padding">
+
+                <TextView
+                    android:id="@+id/ficha_altura"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="@string/ficha_texto_altura"
+                    android:textSize="@dimen/size_nombre_valores_ficha" />
+
+                <Button
+                    android:id="@+id/boton_medir_ALTURA"
+                    android:layout_width="@dimen/ficha_ancho_botones"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentTop="true"
+                    android:gravity="center"
+                    android:textSize="@dimen/boton_texto"
+                    android:padding="@dimen/ficha_padding_botones"
+                    android:text="@string/ficha_medir"
+                    android:visibility="gone" />
+
+                <TextView
+                    android:id="@+id/ficha_valor_altura"
+                    android:layout_width="50dp"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentTop="true"
+                    android:gravity="center"
+                    android:text="@string/ficha_valor_nulo"
+                    android:textSize="@dimen/size_valores_ficha"
+                    android:visibility="gone" />
+
+            </RelativeLayout>
+
+            <!-- ESPIROMETRIA -->
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/ficha_size_valores"
+                android:padding="@dimen/item_padding">
+
+                <TextView
+                    android:id="@+id/ficha_esp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="@string/ficha_texto_espirometria"
+                    android:textSize="@dimen/size_nombre_valores_ficha" />
+
+                <Button
+                    android:id="@+id/boton_medir_ESP"
+                    android:layout_width="@dimen/ficha_ancho_botones"
+                    android:padding="@dimen/ficha_padding_botones"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentTop="true"
+                    android:gravity="center"
+                    android:text="@string/ficha_medir"
+                    android:textSize="@dimen/boton_texto"
+                    android:visibility="gone" />
+
+
+                <Button
+                    android:id="@+id/boton_visualizar_ESP"
+                    android:layout_width="@dimen/ficha_ancho_botones"
+                    android:padding="@dimen/ficha_padding_botones"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentTop="true"
+                    android:gravity="center"
+                    android:text="@string/ficha_visualizar"
+                    android:textSize="@dimen/boton_texto"
+                    android:visibility="gone" />
+
+
+            </RelativeLayout>
+
+            <!-- SPO2 -->
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/ficha_size_valores"
+                android:padding="@dimen/item_padding">
+
+                <TextView
+                    android:id="@+id/ficha_spo2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="@string/ficha_texto_spo2"
+                    android:textSize="@dimen/size_nombre_valores_ficha" />
+
+                <Button
+                    android:layout_width="50dp"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentTop="true"
+                    android:gravity="center" />
+            </RelativeLayout>
+
+            <!-- ECG -->
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/ficha_size_valores"
+                android:padding="@dimen/item_padding">
+
+                <TextView
+                    android:id="@+id/ficha_ecg"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="@string/ficha_texto_ecg"
+                    android:textSize="@dimen/size_nombre_valores_ficha" />
+
+                <Button
+                    android:layout_width="@dimen/ficha_ancho_botones"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentTop="true"
+                    android:gravity="center"
+                    android:textSize="@dimen/boton_texto"
+                    android:padding="@dimen/ficha_padding_botones"
+                    android:text="@string/ficha_medir"
+                    android:visibility="gone" />
+
+                <Button
+                    android:layout_width="@dimen/ficha_ancho_botones"
+                    android:layout_height="match_parent"
+                    android:textSize="@dimen/boton_texto"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentTop="true"
+                    android:gravity="center"
+                    android:padding="@dimen/ficha_padding_botones"
+                    android:text="@string/ficha_visualizar"
+                    android:visibility="gone" />
+
+
+            </RelativeLayout>
+
+            <!-- PPM -->
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/ficha_size_valores"
+                android:padding="@dimen/item_padding">
+
+                <TextView
+                    android:id="@+id/ficha_ppm"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="@string/ficha_texto_ppm"
+                    android:textSize="@dimen/size_nombre_valores_ficha" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentTop="true"
+                    android:gravity="center"
+                    android:text="@string/ficha_valor_nulo"
+                    android:textSize="@dimen/size_valores_ficha" />
+            </RelativeLayout>
+
+
+        </LinearLayout>
+
+
+    </ScrollView>
+
+
+</LinearLayout>

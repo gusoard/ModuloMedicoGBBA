@@ -1,0 +1,42 @@
+<resources>
+    <string name="app_name">Modulo Medico GBBA</string>
+    <string name="action_settings">Settings</string>
+
+
+    <!-- Unidades -->
+    <string name="centimetros">cm</string>
+    <string name="metros">m</string>
+    <string name="pulsaciones">ppm</string>
+    <string name="porcentaje">%</string>
+
+    <!-- Ficha Modelo -->
+    <string name="fichamodelo_texto_general">Ficha de fecha:</string>
+    <string name="fichamodelo_texto_vermas">Ir a ficha&#8230;</string>
+
+
+
+    <!-- Ficha -->
+    <string name="ficha_texto_altura">Altura:</string>
+    <string name="ficha_texto_espirometria">Espirometria:</string>
+    <string name="ficha_texto_spo2">Oxigeno en\nla sangre:</string>.
+    <string name="ficha_texto_ecg">ECG:</string>
+    <string name="ficha_texto_ppm">Pulsaciones\npor minuto:</string>
+
+    <string name="ficha_texto_fechamedicion">FECHA DE MEDICION</string>
+    <string name="ficha_texto_fecha">DD/MM/AAAA</string>
+
+    <string name="ficha_nohayfecha">No hay fecha guardada</string>
+    <string name="ficha_valor_nulo"> - - </string>
+    <string name="ficha_medir">Medir</string>
+    <string name="ficha_visualizar">Ver</string>
+
+
+
+    <!-- Lista Fichas -->
+    <string name="listafichas_texto_nombre">Nombre Sujeto</string>
+
+    <!-- Bluetooth -->
+    <string name="bluetooth_texto_asociados">Dispositivos Asociados</string>
+    <string name="bluetooth_texto_volver">Volver</string>
+
+</resources>
