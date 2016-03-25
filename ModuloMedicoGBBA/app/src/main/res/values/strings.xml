@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Modulo Medico GBBA</string>
+    <string name="app_name">Módulo Médico GBBA</string>
     <string name="action_settings">Settings</string>
 
 
@@ -10,25 +10,35 @@
     <string name="porcentaje">%</string>
 
     <!-- Ficha Modelo -->
-    <string name="fichamodelo_texto_general">Ficha de fecha:</string>
+    <string name="fichamodelo_texto_general">Fecha de medición:</string>
     <string name="fichamodelo_texto_vermas">Ir a ficha&#8230;</string>
 
 
 
     <!-- Ficha -->
     <string name="ficha_texto_altura">Altura:</string>
-    <string name="ficha_texto_espirometria">Espirometria:</string>
-    <string name="ficha_texto_spo2">Oxigeno en\nla sangre:</string>.
+    <string name="ficha_texto_espirometria">Espirometría:</string>
+    <string name="ficha_texto_spo2">Oxígeno en\nla sangre:</string>.
     <string name="ficha_texto_ecg">ECG:</string>
     <string name="ficha_texto_ppm">Pulsaciones\npor minuto:</string>
 
-    <string name="ficha_texto_fechamedicion">FECHA DE MEDICION</string>
+    <string name="ficha_texto_fechamedicion">FECHA DE MEDICIÓN</string>
     <string name="ficha_texto_fecha">DD/MM/AAAA</string>
 
     <string name="ficha_nohayfecha">No hay fecha guardada</string>
     <string name="ficha_valor_nulo"> - - </string>
     <string name="ficha_medir">Medir</string>
     <string name="ficha_visualizar">Ver</string>
+
+<!-- Login -->
+
+    <string name="error_cedula_incorrecta">La Cédula no concuerda con el nombre</string>
+    <string name="error_nombre_incorrecta">El nombre no es válido. Intente nuevamente</string>
+    <string name="error_cedula_invalida">La Cédula no es válida. Formato válido "12345678" </string>
+    <string name="error_campo_requerido">Este campo es obligatorio</string>
+    <string name="mensaje_bienvenida">¡Bienvenido!</string>
+    <string name="hint_nombre">Nombre de sujeto</string>
+    <string name="hint_cedula">Cédula 12345678</string>
 
 
 

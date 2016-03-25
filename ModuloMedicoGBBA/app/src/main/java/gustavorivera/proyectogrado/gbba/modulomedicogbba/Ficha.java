@@ -39,6 +39,8 @@ public class Ficha extends AppCompatActivity {
     TextView mTextoFecha, mTextoSpo2, mTextoPpm, mTextoAltura;
     Button mMedirAltura, mMedirEsp, mVerEsp, mMedirSpo2, mMedirECG, mVerECG;
 
+    boolean fichaNueva;
+
 
     /*
      *  CONTROL DE MEDICIONES
@@ -53,14 +55,16 @@ public class Ficha extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.ficha);
 
-        //mFichaModelo = (FichaModelo) getIntent().getSerializableExtra(EXTRA);
+        mFichaModelo = (FichaModelo) getIntent().getSerializableExtra(EXTRA);
+
+        fichaNueva = mFichaModelo.isNuevo();
 
         isBaseLista = false;
         mBase = 0;
 
         inicializarWidgets();
-        // setTexto();
-//        setClickListeners();
+        setTexto();
+        setClickListeners();
 
     }
 
@@ -82,11 +86,11 @@ public class Ficha extends AppCompatActivity {
 
         // Texto: Valor de SpO2
         // Boton: Medicion de SpO2
-        mTextoSpo2 = (TextView) findViewById(R.id.texto_spo2);
+        mTextoSpo2 = (TextView) findViewById(R.id.ficha_valor_spo2);
         mMedirSpo2 = (Button) findViewById(R.id.boton_medir_SPO2);
 
         // Texto: Texto de Pulsaciones Por Minuto (PPM)
-        mTextoPpm = (TextView) findViewById(R.id.texto_ppm);
+        mTextoPpm = (TextView) findViewById(R.id.ficha_valor_ppm);
 
         // Boton: Medicion de ECG
         // Boton: Visualizacion de ECG
@@ -107,7 +111,7 @@ public class Ficha extends AppCompatActivity {
         *       En el caso de Espirometria y ECG, se habilita el boton de Visualizar
         * */
 
-        if (mFichaModelo.isNuevo()) {
+        if (fichaNueva) {
             // La Ficha es nueva
 
             // Fecha
@@ -157,7 +161,7 @@ public class Ficha extends AppCompatActivity {
                 mTextoAltura.setText(R.string.ficha_valor_nulo);
             } else {
                 // String Format -> Texto + formato (%f para float) , values in order
-                mTextoAltura.setText(String.format("%f", mFichaModelo.getAltura()));
+                mTextoAltura.setText(String.format("%f" + R.string.centimetros, mFichaModelo.getAltura()));
             }
 
 
@@ -183,7 +187,7 @@ public class Ficha extends AppCompatActivity {
             } else {
                 // Cargamos el porcentaje de spo2
                 // String Format -> Texto + formato (%d para Integer) , values in order
-                mTextoSpo2.setText(String.format("%d%%", mFichaModelo.getSpo2()));
+                mTextoSpo2.setText(String.format("%d" + R.string.porcentaje, mFichaModelo.getSpo2()));
             }
 
             // PPM
@@ -196,13 +200,13 @@ public class Ficha extends AppCompatActivity {
             }
 
             // ECG
-            if (mFichaModelo.getEcg().isEmpty()){
+            if (mFichaModelo.getEcg().isEmpty()) {
                 // No se guardo nada
                 mVerECG.setVisibility(View.VISIBLE);
                 mMedirECG.setVisibility(View.GONE);
                 mVerECG.setClickable(false);
                 mVerECG.setText(R.string.ficha_valor_nulo);
-            }else{
+            } else {
                 // Mostrar boton de visualizar
                 mVerECG.setVisibility(View.VISIBLE);
                 mMedirECG.setVisibility(View.GONE);
@@ -238,7 +242,6 @@ public class Ficha extends AppCompatActivity {
                     // Mide la Altura
                 } else {
                     // Mide la Base
-
 
 
                 }
@@ -286,6 +289,9 @@ public class Ficha extends AppCompatActivity {
         });
     }
 
+
+
+    /*
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
 
@@ -294,4 +300,6 @@ public class Ficha extends AppCompatActivity {
         return true;
 
     }
+
+    */
 }
