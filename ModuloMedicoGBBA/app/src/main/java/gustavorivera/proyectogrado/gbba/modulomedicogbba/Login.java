@@ -36,9 +36,33 @@ public class Login extends AppCompatActivity implements LoaderCallbacks<Cursor> 
      * A dummy authentication store containing known user names and passwords.
      * TODO: remove after connecting to a real authentication system.
      */
+
+
+
+
+
+
     private static final String[] DUMMY_CREDENTIALS = new String[]{
             "G:1", "B:2"
     };
+
+
+
+
+    /*
+    *
+    *
+    *
+    * TODO ACCEDER A ARCHIVOS EXCEL PARA MODIFICAR
+    * todo O CREAR
+    *
+    *
+    * */
+
+
+
+
+
     /**
      * Keep track of the login task to ensure we can cancel it if requested.
      */
@@ -284,10 +308,10 @@ public class Login extends AppCompatActivity implements LoaderCallbacks<Cursor> 
                 String[] pieces = credential.split(":");
                 if (pieces[0].equals(mEmail)) {
                     // Account exists, return true if the password matches.
-                    if (pieces[1].equals(mPassword)){
+                    if (pieces[1].equals(mPassword)) {
                         pacienteSeleccionado = pieces[0];
                         return true;
-                    }else {
+                    } else {
                         return false;
                     }
                 }
@@ -304,7 +328,11 @@ public class Login extends AppCompatActivity implements LoaderCallbacks<Cursor> 
 
             if (success) {
                 Intent i = new Intent(Login.this, ListaFichas.class);
-                i.putExtra(PACIENTE_SELECCIONADO, pacienteSeleccionado);
+               //TODO Activar nuevamente el pasar al paciente
+
+
+               //
+               // i.putExtra(PACIENTE_SELECCIONADO, pacienteSeleccionado);
                 startActivity(i);
                 finish();
             } else {

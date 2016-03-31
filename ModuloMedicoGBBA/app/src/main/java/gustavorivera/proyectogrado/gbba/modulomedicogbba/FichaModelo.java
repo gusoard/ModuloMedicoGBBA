@@ -14,6 +14,8 @@ public class FichaModelo implements Serializable {
     private String fecha;
     private boolean nuevo = true;
     private ArrayList<Float> ecg = new ArrayList<>();
+    private ArrayList<Float> espirometria = new ArrayList<>();
+
 
     public ArrayList<Float> getEspirometria() {
         return espirometria;
@@ -22,8 +24,6 @@ public class FichaModelo implements Serializable {
     public void setEspirometria(ArrayList<Float> espirometria) {
         this.espirometria = espirometria;
     }
-
-    private ArrayList<Float> espirometria = new ArrayList<>();
 
 
     public Integer getSpo2() {

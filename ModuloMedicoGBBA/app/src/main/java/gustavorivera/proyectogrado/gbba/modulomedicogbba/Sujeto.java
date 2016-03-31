@@ -13,7 +13,7 @@ public class Sujeto implements Serializable {
 
     private String mGrupoSang;
 
-    private ArrayList<Ficha> mFichas;
+    private ArrayList<FichaModelo> mFichas;
 
     public String getNombre() {
         return mNombre;
@@ -39,11 +39,11 @@ public class Sujeto implements Serializable {
         mGrupoSang = grupoSang;
     }
 
-    public ArrayList<Ficha> getFichas() {
+    public ArrayList<FichaModelo> getFichas() {
         return mFichas;
     }
 
-    public void setFichas(ArrayList<Ficha> fichas) {
+    public void setFichas(ArrayList<FichaModelo> fichas) {
         mFichas = fichas;
     }
 }

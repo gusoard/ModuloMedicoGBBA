@@ -1,13 +1,22 @@
 package gustavorivera.proyectogrado.gbba.modulomedicogbba;
 
+import android.annotation.SuppressLint;
+import android.bluetooth.BluetoothSocket;
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Locale;
 
@@ -27,14 +36,17 @@ public class Ficha extends AppCompatActivity {
     /*
     * STRINGS DE SELECCION
     * */
-    public static final String selectAltura = "Altura";
-    public static final String selectECG = "ECG";
+    public static final String selectAltura = "A";
+    public static final String selectBase = "B";
+    public static final String selectECG = "E";
     public static final String selectVisualizar = "Visualizar ECG";
-    public static final String selectSpO2 = "SpO2";
-    public static final String selectEspirometro = "Espirometro";
+    public static final String selectSpO2 = "S";
+    public static final String selectEspirometro = "P";
 
 
     FichaModelo mFichaModelo;
+
+    private String mInstruccion;
 
     TextView mTextoFecha, mTextoSpo2, mTextoPpm, mTextoAltura;
     Button mMedirAltura, mMedirEsp, mVerEsp, mMedirSpo2, mMedirECG, mVerECG;
@@ -47,13 +59,21 @@ public class Ficha extends AppCompatActivity {
      * */
 
     private boolean isBaseLista;
-    private float mBase;
+    private double mBase, mAltura, mDistancia;
+
+    private Integer mPpm, mSpo2;
+
+    private ArrayList<Float> mECGArray = new ArrayList<>();
+    private ArrayList<Float> mEspArray = new ArrayList<>();
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.ficha);
+
+
+        Bluetooth.gethandler(mHandler);
 
         mFichaModelo = (FichaModelo) getIntent().getSerializableExtra(EXTRA);
 
@@ -240,8 +260,25 @@ public class Ficha extends AppCompatActivity {
 
                 if (isBaseLista) {
                     // Mide la Altura
+
+                    if (Bluetooth.hiloConectado != null) {
+                        mInstruccion = selectAltura;
+                        mensajeToast("Quiero Altura");
+                        Bluetooth.hiloConectado.write(mInstruccion);
+                    }else {
+                        mensajeToast("Debe iniciar el BT");
+                    }
+
                 } else {
                     // Mide la Base
+
+                    if (Bluetooth.hiloConectado != null) {
+                        mensajeToast("Quiero Base");
+                        mInstruccion = selectBase;
+                        Bluetooth.hiloConectado.write(mInstruccion);
+                    }else {
+                        mensajeToast("Debe iniciar el BT");
+                    }
 
 
                 }
@@ -277,6 +314,9 @@ public class Ficha extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // Start Activity con opcion de BT
+
+                startActivity(new Intent(Ficha.this,FichaGrafica.class));
+
             }
         });
 
@@ -285,11 +325,158 @@ public class Ficha extends AppCompatActivity {
             public void onClick(View v) {
                 // Start Activity sin opcion de BT
 
+
             }
-        });
+        }
+        );
+    }
+
+// TODO REMOVER EL SUPPRESS LINT CUANDO RESUELVA EL LEAK
+
+    @SuppressLint("HandlerLeak")
+    Handler mHandler = new Handler() {
+
+        @Override
+        public void handleMessage(Message msj) {
+            super.handleMessage(msj);
+
+            switch (msj.what) {
+                case Bluetooth.SUCCESS_CONNECT:
+                    Bluetooth.hiloConectado = new Bluetooth.ConnectedThread((BluetoothSocket) msj.obj);
+                    mensajeToast("Conectado");
+                    String s = "Conectado bien";
+                    Bluetooth.hiloConectado.start();
+                    break;
+                case Bluetooth.MESSAGE_READ:
+
+                    byte[] bufferLectura = (byte[]) msj.obj;
+
+
+
+                    /**
+                     *
+                     * STRING(byte DATA, int OFFSET, int BYTECOUNT)
+                     * BYTE COUNT DEBERIA SER DINAMICO O UN NUMERO FIJO QUE BASTE PARA TODOS LOS DATOS
+                     * SIN IMPORTAR LA MEDICION QUE SE HAGA
+                     *
+                     * */
+                    String stringEntrada = new String(bufferLectura, 0, 5);
+
+                    mensajeLog(stringEntrada);
+                    switch (mInstruccion) {
+                        case selectBase:
+                            // Almacenar Base
+                            mensajeLog("Recibiendo Base");
+                            if (stringEntrada.indexOf('b') == 0 && stringEntrada.indexOf(".") == 2) {
+                                stringEntrada = stringEntrada.replace("b", "");
+                                if (isDoubleNumber(stringEntrada)) {
+                                    mBase = Double.parseDouble(stringEntrada);
+                                    isBaseLista = true;
+                                }
+                            }
+                            break;
+                        case selectAltura:
+                            // Valor
+                            mensajeLog("Recibiendo Distancia");
+                            if (isBaseLista) {
+                                // Just in case..
+
+                                if (stringEntrada.indexOf('a') == 0 && stringEntrada.indexOf(".") == 2) {
+                                    stringEntrada = stringEntrada.replace("a", "");
+                                    if (isDoubleNumber(stringEntrada)) {
+                                        mDistancia = Double.parseDouble(stringEntrada);
+
+                                        if (mBase > mDistancia) {
+                                            mAltura = mBase - mDistancia;
+                                        }
+
+                                        mMedirAltura.setText(String.format("%f" + R.string.centimetros, mAltura));
+
+
+                                    }
+                                }
+
+                            }
+
+                            break;
+                        case selectSpO2:
+                            // Valor
+
+                            break;
+                        case selectECG:
+                            // Grafica
+                            // Sacar ppm una vez termine
+
+                            break;
+                        case selectEspirometro:
+                            // Grafica
+
+                            break;
+                        default:
+                    }
+
+
+                    /**
+                     *
+                     * REVISAR
+                     * Si no me equivoco, con esto se verifica con que se inicia y ubica el punto
+                     *
+                     * */
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        public boolean isDoubleNumber(String num) {
+            try {
+                Double.parseDouble(num);
+            } catch (NumberFormatException nfe) {
+                return false;
+            }
+            return true;
+        }
+
+    };
+
+
+    private void mensajeToast(String mensaje) {
+        Toast.makeText(getApplicationContext(), mensaje, Toast.LENGTH_SHORT).show();
+    }
+
+    private void mensajeLog(String mensaje) {
+        Log.d(TAG, mensaje);
     }
 
 
+
+
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_ficha_conectar, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_settings) {
+            startActivity(new Intent("android.intent.action.BTTesis"));
+            return true;
+        }else if (id == R.id.desc){
+            Bluetooth.desconectar();
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
 
     /*
     @Override

@@ -155,11 +155,14 @@ public class Bluetooth extends Activity {
                             break;
                         }
                     }
+
+
                     listaAdapter.add(device.getName() + " " + s + " " + "\n" + device.getAddress());
 
                 } else if (BluetoothAdapter.ACTION_DISCOVERY_STARTED.equals(accion)) {
 
                 } else if (BluetoothAdapter.ACTION_DISCOVERY_FINISHED.equals(accion)) {
+                    mensajeToast("Listo con Discovery de dispositivos");
 
                 } else if (BluetoothAdapter.ACTION_STATE_CHANGED.equals(accion)) {
                     if (btAdapter.getState() == btAdapter.STATE_OFF) {

@@ -1,72 +1,97 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/textoBienvenida"
+
+    <!-- Login progress -->
+    <ProgressBar
+        android:id="@+id/login_progress"
+        style="?android:attr/progressBarStyleLarge"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="@dimen/padding_top_texto_superior"
-        android:text="@string/mensaje_bienvenida"
-        android:textSize="@dimen/size_texto_grande"/>
+        android:layout_marginBottom="8dp"
+        android:visibility="gone"/>
 
-    <AutoCompleteTextView
-        android:id="@+id/login_campo_nombre"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignEnd="@+id/textoBienvenida"
-        android:layout_alignLeft="@+id/textoBienvenida"
-        android:layout_alignRight="@+id/textoBienvenida"
-        android:layout_alignStart="@+id/textoBienvenida"
-        android:layout_below="@+id/textoBienvenida"
-        android:layout_marginTop="39dp"
-        android:hint="@string/hint_nombre"/>
-
-    <EditText
-        android:id="@+id/login_campo_cedula"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignEnd="@+id/login_campo_nombre"
-        android:layout_alignLeft="@+id/login_campo_nombre"
-        android:layout_alignRight="@+id/login_campo_nombre"
-        android:layout_alignStart="@+id/login_campo_nombre"
-        android:layout_below="@+id/login_campo_nombre"
-        android:layout_marginTop="48dp"
-        android:ems="10"
-        android:hint="@string/hint_cedula"
-        android:inputType="number"/>
-
-    <LinearLayout
+    <ScrollView
+        android:id="@+id/login_form"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/login_campo_cedula"
-        android:layout_centerHorizontal="true"
-        android:orientation="horizontal"
-        android:weightSum="100">
+        android:layout_height="match_parent">
 
-        <Button
-            android:id="@+id/boton_ingresar"
-            android:layout_width="@dimen/ficha_ancho_botones"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_margin="@dimen/login_botones"
-            android:layout_weight="50"
-            android:gravity="center"
-            android:text="Ingresar"/>
 
-        <Button
-            android:id="@+id/boton_nuevo"
-            android:layout_width="@dimen/ficha_ancho_botones"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_margin="@dimen/login_botones"
-            android:layout_weight="50"
-            android:gravity="center"
-            android:text="Nuevo"/>
-    </LinearLayout>
+        <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
 
-</RelativeLayout>
+
+            <TextView
+                android:id="@+id/textoBienvenida"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="@dimen/padding_top_texto_superior"
+                android:text="@string/mensaje_bienvenida"
+                android:textSize="@dimen/size_texto_grande"/>
+
+            <AutoCompleteTextView
+                android:id="@+id/login_campo_nombre"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignEnd="@+id/textoBienvenida"
+                android:layout_alignLeft="@+id/textoBienvenida"
+                android:layout_alignRight="@+id/textoBienvenida"
+                android:layout_alignStart="@+id/textoBienvenida"
+                android:layout_below="@+id/textoBienvenida"
+                android:layout_marginTop="39dp"
+                android:hint="@string/hint_nombre"/>
+
+            <EditText
+                android:id="@+id/login_campo_cedula"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignEnd="@+id/login_campo_nombre"
+                android:layout_alignLeft="@+id/login_campo_nombre"
+                android:layout_alignRight="@+id/login_campo_nombre"
+                android:layout_alignStart="@+id/login_campo_nombre"
+                android:layout_below="@+id/login_campo_nombre"
+                android:layout_marginTop="48dp"
+                android:imeActionId="@+id/login"
+                android:ems="10"
+                android:hint="@string/hint_cedula"
+                android:inputType="number"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/login_campo_cedula"
+                android:layout_centerHorizontal="true"
+                android:orientation="horizontal"
+                android:weightSum="100">
+
+                <Button
+                    android:id="@+id/boton_ingresar"
+                    android:layout_width="@dimen/ficha_ancho_botones"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_margin="@dimen/login_botones"
+                    android:layout_weight="50"
+                    android:gravity="center"
+                    android:text="Ingresar"/>
+
+                <Button
+                    android:id="@+id/boton_nuevo"
+                    android:layout_width="@dimen/ficha_ancho_botones"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_margin="@dimen/login_botones"
+                    android:layout_weight="50"
+                    android:gravity="center"
+                    android:text="Nuevo"/>
+            </LinearLayout>
+
+        </RelativeLayout>
+    </ScrollView>
+</LinearLayout>

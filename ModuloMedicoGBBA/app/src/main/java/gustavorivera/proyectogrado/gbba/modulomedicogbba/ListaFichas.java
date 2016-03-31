@@ -1,5 +1,6 @@
 package gustavorivera.proyectogrado.gbba.modulomedicogbba;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -10,7 +11,10 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -22,6 +26,8 @@ public class ListaFichas extends AppCompatActivity {
     private Sujeto mSujeto;
 
     private FichaModeloAdapter mFichaModeloAdapter;
+
+    private ListView mListaVista;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,6 +71,54 @@ public class ListaFichas extends AppCompatActivity {
 
          **/
 
+        mSujeto = new Sujeto();
+        mSujeto.setNombre("Paciente Prueba");
+
+
+        if (mSujeto.getFichas() == null){
+            mSujeto.setFichas(new ArrayList<FichaModelo>());
+        }
+
+
+        for (int i = 0; i < 4; i++) {
+            FichaModelo ficha1 = new FichaModelo();
+            ficha1.setAltura(1.73+i);
+            ficha1.setFecha(i + "/" + i * 2 + "/2015");
+            ficha1.setNuevo(false);
+            mSujeto.getFichas().add(ficha1);
+        }
+
+        for (int i = 4; i < 6; i++) {
+            FichaModelo ficha1 = new FichaModelo();
+            ficha1.setNuevo(true);
+            ficha1.setFecha(i + "/" + i * 2 + "/2015");
+            mSujeto.getFichas().add(ficha1);
+        }
+
+        mFichaModeloAdapter = new FichaModeloAdapter(mSujeto.getFichas());
+        mListaVista = (ListView)findViewById(R.id.listaficha_listview);
+        mListaVista.setAdapter(mFichaModeloAdapter);
+
+        mListaVista.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                FichaModelo fichaModelo = mSujeto.getFichas().get(position);
+
+
+                Intent i = new Intent(ListaFichas.this, Ficha.class);
+                i.putExtra(Ficha.EXTRA, fichaModelo);
+                startActivityForResult(i, position);
+
+
+
+            }
+        });
+
+
+        // TODO AGREGAR NUEVA FICHAMODELO
+
+
 
     }
 
@@ -101,12 +155,20 @@ public class ListaFichas extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            addFichaModelo();
             return true;
         }
 
         return super.onOptionsItemSelected(item);
     }
 
+
+    private void addFichaModelo(){
+        FichaModelo nuevaFicha = new FichaModelo();
+        nuevaFicha.setFecha("8/8/88");
+        mSujeto.getFichas().add(nuevaFicha);
+        ((BaseAdapter) mListaVista.getAdapter()).notifyDataSetChanged();
+    }
 
     private void mensaje(String mensaje) {
         Log.i(TAG, mensaje);

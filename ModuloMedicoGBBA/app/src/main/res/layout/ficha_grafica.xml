@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:layout_weight="1"
+              android:orientation="horizontal">
+
+
+    <com.github.mikephil.charting.charts.LineChart
+        android:id="@+id/ficha_prueba_grafica"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="0.75"/>
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <Button
+            android:id="@+id/ficha_prueba_streamdata"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="DALE\nBECERRO"
+            android:layout_marginTop="55dp"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"/>
+        <Button
+            android:id="@+id/ficha_prueba_stopdata"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="STAHP"
+            android:layout_marginTop="45dp"
+            android:layout_below="@+id/checkBox"
+            android:layout_centerHorizontal="true"/>
+
+        <CheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Recibiendo"
+            android:clickable="false"
+            android:id="@+id/checkBox"
+            android:layout_centerVertical="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"/>
+    </RelativeLayout>
+
+
+</LinearLayout>
