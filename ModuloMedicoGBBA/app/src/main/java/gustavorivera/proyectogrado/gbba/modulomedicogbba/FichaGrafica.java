@@ -28,7 +28,46 @@ public class FichaGrafica extends Activity {
     LineChart mLineChart;
     Button mButton, mParar;
     CheckBox check;
+    @SuppressLint("HandlerLeak")
+    Handler mHandler = new Handler() {
 
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+
+            if (msg.what == Bluetooth.MESSAGE_READ) {
+
+                byte[] bufferLectura = (byte[]) msg.obj;
+
+                String stringEntrada = new String(bufferLectura);
+
+                mensajeLog("String que recibo: " + stringEntrada);
+                Float dataEntrada = Float.parseFloat(stringEntrada);
+                mensajeLog("Float que convierto: " + dataEntrada);
+
+                LineData data = mLineChart.getData();
+
+                if (data != null) {
+                    LineDataSet set = data.getDataSetByIndex(0);
+                    // set.addEntry(...); // can be called as well
+
+                    if (set == null) {
+                        set = createSet();
+                        data.addDataSet(set);
+                    }
+
+                    data.addXValue("" + (data.getXValCount() + 1));
+                    data.addEntry(new Entry(dataEntrada, set.getEntryCount()), 0);
+
+                    mLineChart.notifyDataSetChanged();
+                    mLineChart.invalidate();
+                }
+
+
+            }
+
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,10 +76,10 @@ public class FichaGrafica extends Activity {
         Bluetooth.gethandler(mHandler);
 
         //  Set views
-        mLineChart = (LineChart)findViewById(R.id.ficha_prueba_grafica);
-        mButton = (Button)findViewById(R.id.ficha_prueba_streamdata);
-        mParar = (Button)findViewById(R.id.ficha_prueba_stopdata);
-        check = (CheckBox)findViewById(R.id.checkBox);
+        mLineChart = findViewById(R.id.ficha_prueba_grafica);
+        mButton = findViewById(R.id.ficha_prueba_streamdata);
+        mParar = findViewById(R.id.ficha_prueba_stopdata);
+        check = findViewById(R.id.checkBox);
 
         // Cuando no hay data
         mLineChart.setDescription("");
@@ -68,59 +107,15 @@ public class FichaGrafica extends Activity {
 
 
         /*
-        *
-        * TODO Modificar laleyenda segun lo necesario
-        *
-        * */
+         *
+         * TODO Modificar laleyenda segun lo necesario
+         *
+         * */
 
 
         setOnClickListenersButtons();
 
     }
-
-
-    @SuppressLint("HandlerLeak")
-    Handler mHandler = new Handler(){
-
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-
-            if (msg.what == Bluetooth.MESSAGE_READ){
-
-                byte[] bufferLectura = (byte[]) msg.obj;
-
-                String stringEntrada = new String(bufferLectura);
-
-                mensajeLog("String que recibo: "+stringEntrada);
-                Float dataEntrada = Float.parseFloat(stringEntrada);
-                mensajeLog("Float que convierto: "+dataEntrada);
-
-                LineData data = mLineChart.getData();
-
-                if (data != null){
-                    LineDataSet set = data.getDataSetByIndex(0);
-                    // set.addEntry(...); // can be called as well
-
-                    if (set == null) {
-                        set = createSet();
-                        data.addDataSet(set);
-                    }
-
-                    data.addXValue("" + (data.getXValCount() + 1));
-                    data.addEntry(new Entry(dataEntrada,set.getEntryCount()),0);
-
-                    mLineChart.notifyDataSetChanged();
-                    mLineChart.invalidate();
-                }
-
-
-
-            }
-
-        }
-    };
-
 
     private LineDataSet createSet() {
 
@@ -140,7 +135,7 @@ public class FichaGrafica extends Activity {
     }
 
 
-    private void setOnClickListenersButtons(){
+    private void setOnClickListenersButtons() {
 
 
         mButton.setOnClickListener(new View.OnClickListener() {
@@ -167,9 +162,7 @@ public class FichaGrafica extends Activity {
         });
 
 
-
     }
-
 
 
     private void mensajeToast(String mensaje) {
@@ -179,7 +172,6 @@ public class FichaGrafica extends Activity {
     private void mensajeLog(String mensaje) {
         Log.d("Grafica Prueba", mensaje);
     }
-
 
 
 }

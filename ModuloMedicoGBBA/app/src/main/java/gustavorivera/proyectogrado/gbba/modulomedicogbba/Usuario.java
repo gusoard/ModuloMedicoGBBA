@@ -6,7 +6,7 @@ import java.util.ArrayList;
 /**
  * Created by gustavo on 24/03/16.
  */
-public class Sujeto implements Serializable {
+public class Usuario implements Serializable {
 
     private String mNombre;
     private String mCedula;

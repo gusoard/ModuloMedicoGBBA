@@ -2,8 +2,6 @@ package gustavorivera.proyectogrado.gbba.modulomedicogbba;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -23,7 +21,7 @@ public class ListaFichas extends AppCompatActivity {
 
     private final static String TAG = "Control Lista de Fichas";
 
-    private Sujeto mSujeto;
+    private Usuario mUsuario;
 
     private FichaModeloAdapter mFichaModeloAdapter;
 
@@ -71,12 +69,12 @@ public class ListaFichas extends AppCompatActivity {
 
          **/
 
-        mSujeto = new Sujeto();
-        mSujeto.setNombre("Paciente Prueba");
+        mUsuario = new Usuario();
+        mUsuario.setNombre("Paciente Prueba");
 
 
-        if (mSujeto.getFichas() == null){
-            mSujeto.setFichas(new ArrayList<FichaModelo>());
+        if (mUsuario.getFichas() == null){
+            mUsuario.setFichas(new ArrayList<FichaModelo>());
         }
 
 
@@ -85,17 +83,17 @@ public class ListaFichas extends AppCompatActivity {
             ficha1.setAltura(1.73+i);
             ficha1.setFecha(i + "/" + i * 2 + "/2015");
             ficha1.setNuevo(false);
-            mSujeto.getFichas().add(ficha1);
+            mUsuario.getFichas().add(ficha1);
         }
 
         for (int i = 4; i < 6; i++) {
             FichaModelo ficha1 = new FichaModelo();
             ficha1.setNuevo(true);
             ficha1.setFecha(i + "/" + i * 2 + "/2015");
-            mSujeto.getFichas().add(ficha1);
+            mUsuario.getFichas().add(ficha1);
         }
 
-        mFichaModeloAdapter = new FichaModeloAdapter(mSujeto.getFichas());
+        mFichaModeloAdapter = new FichaModeloAdapter(mUsuario.getFichas());
         mListaVista = (ListView)findViewById(R.id.listaficha_listview);
         mListaVista.setAdapter(mFichaModeloAdapter);
 
@@ -103,7 +101,7 @@ public class ListaFichas extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-                FichaModelo fichaModelo = mSujeto.getFichas().get(position);
+                FichaModelo fichaModelo = mUsuario.getFichas().get(position);
 
 
                 Intent i = new Intent(ListaFichas.this, Ficha.class);
@@ -166,7 +164,7 @@ public class ListaFichas extends AppCompatActivity {
     private void addFichaModelo(){
         FichaModelo nuevaFicha = new FichaModelo();
         nuevaFicha.setFecha("8/8/88");
-        mSujeto.getFichas().add(nuevaFicha);
+        mUsuario.getFichas().add(nuevaFicha);
         ((BaseAdapter) mListaVista.getAdapter()).notifyDataSetChanged();
     }
 
