@@ -19,6 +19,8 @@ import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.utils.ColorTemplate;
 
+import gustavorivera.proyectogrado.gbba.modulomedicogbba.controller.Bluetooth;
+
 /**
  * Created by gustavo on 29/03/16.
  */
@@ -143,7 +145,7 @@ public class FichaGrafica extends Activity {
             public void onClick(View v) {
                 // Iniciar Stream
                 mensajeToast("Iniciando stream...");
-                Bluetooth.hiloConectado.write("P");
+               // Bluetooth.hiloConectado.write("P");
                 check.setChecked(true);
 
 
@@ -155,7 +157,7 @@ public class FichaGrafica extends Activity {
             public void onClick(View v) {
                 // Parar Stream
                 mensajeToast("Deteniendo stream...");
-                Bluetooth.hiloConectado.write("Q");
+              //  Bluetooth.hiloConectado.write("Q");
                 check.setChecked(false);
 
             }

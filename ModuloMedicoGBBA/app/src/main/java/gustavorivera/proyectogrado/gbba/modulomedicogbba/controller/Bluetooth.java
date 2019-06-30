@@ -1,4 +1,4 @@
-package gustavorivera.proyectogrado.gbba.modulomedicogbba;
+package gustavorivera.proyectogrado.gbba.modulomedicogbba.controller;
 
 import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
@@ -24,9 +24,13 @@ import java.util.ArrayList;
 import java.util.Set;
 import java.util.UUID;
 
+import gustavorivera.proyectogrado.gbba.modulomedicogbba.R;
+
 /**
  * Created by gustavo on 23/03/16.
  */
+
+// TODO Change logic of bluetooth connection - 30/06/2019
 public class Bluetooth extends Activity {
 
     private static final String TAG = "Bluetooth";
@@ -43,7 +47,7 @@ public class Bluetooth extends Activity {
 
 
     protected static final int SUCCESS_CONNECT = 0;
-    protected static final int MESSAGE_READ = 1;
+    public static final int MESSAGE_READ = 1; // TODO change -> NOT public
 
 
     ListView listaDisp;

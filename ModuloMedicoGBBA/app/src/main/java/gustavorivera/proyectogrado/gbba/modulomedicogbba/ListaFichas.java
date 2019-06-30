@@ -5,9 +5,9 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -17,12 +17,18 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
+import gustavorivera.proyectogrado.gbba.modulomedicogbba.controller.AppController;
+import gustavorivera.proyectogrado.gbba.modulomedicogbba.model.FichaModelo;
+import gustavorivera.proyectogrado.gbba.modulomedicogbba.model.Usuario;
+
 public class ListaFichas extends AppCompatActivity {
 
-    private final static String TAG = "Control Lista de Fichas";
+    private final static String TAG = "FichasActivity:";
 
     private Usuario mUsuario;
 
+    private int mIdUsuario = -1;
+    private ArrayList<FichaModelo> mListFichas = new ArrayList<>();
     private FichaModeloAdapter mFichaModeloAdapter;
 
     private ListView mListaVista;
@@ -31,83 +37,45 @@ public class ListaFichas extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.lista_fichas);
-
-
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        // TODO Que se cargue el sujeto (Obtener info de fichas guardadas)
-
-        /**
-         *
-         * Algo tipo, GetExtras -> Nombre de paciente -> Carga fichas
-         * -> Carga views
-         *
-         * Si es nuevo, inicializar la lista para que no haya problemas de que
-         * es nulo
-         *
-         * */
-
-
-        /** Logica del asunto:
-
-         Cargar al sujeto.
-
-         Agarrar el ArrayList de fichas que tiene el sujeto y pasarlos por el adaptador (ver abajo)
-
-         Poner un ClickListener en cada "fila de ficha" el cual lleva a la FICHA (Ficha.java)
-
-         Cuando se da click, pasar info de la fila de ficha seleccionada a Ficha.java
-
-         Que Ficha.java haga lo que le de la gana
-
-         Regresar de Ficha.java y almacenar esa ficha en el sujeto
-
-         -----
-
-         En caso de crear una nueva ficha, que esta vaya directo a Ficha.java
-
-         **/
+        mUsuario = (Usuario) getIntent().getSerializableExtra(Login.USUARIO_SELECCIONADO);
+        mListFichas = AppController.Companion.getInstance().getFichasUsuario(mUsuario.getId());
 
         mUsuario = new Usuario();
         mUsuario.setNombre("Paciente Prueba");
 
 
-        if (mUsuario.getFichas() == null){
-            mUsuario.setFichas(new ArrayList<FichaModelo>());
-        }
-
-
         for (int i = 0; i < 4; i++) {
             FichaModelo ficha1 = new FichaModelo();
-            ficha1.setAltura(1.73+i);
+            ficha1.setAltura(1.73 + i);
             ficha1.setFecha(i + "/" + i * 2 + "/2015");
             ficha1.setNuevo(false);
-            mUsuario.getFichas().add(ficha1);
+            mListFichas.add(ficha1);
         }
 
         for (int i = 4; i < 6; i++) {
             FichaModelo ficha1 = new FichaModelo();
             ficha1.setNuevo(true);
             ficha1.setFecha(i + "/" + i * 2 + "/2015");
-            mUsuario.getFichas().add(ficha1);
+            mListFichas.add(ficha1);
         }
 
-        mFichaModeloAdapter = new FichaModeloAdapter(mUsuario.getFichas());
-        mListaVista = (ListView)findViewById(R.id.listaficha_listview);
+        mFichaModeloAdapter = new FichaModeloAdapter(mListFichas);
+        mListaVista = findViewById(R.id.listaficha_listview);
         mListaVista.setAdapter(mFichaModeloAdapter);
 
         mListaVista.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-                FichaModelo fichaModelo = mUsuario.getFichas().get(position);
+                FichaModelo fichaModelo = mListFichas.get(position);
 
 
                 Intent i = new Intent(ListaFichas.this, Ficha.class);
                 i.putExtra(Ficha.EXTRA, fichaModelo);
                 startActivityForResult(i, position);
-
 
 
             }
@@ -117,25 +85,7 @@ public class ListaFichas extends AppCompatActivity {
         // TODO AGREGAR NUEVA FICHAMODELO
 
 
-
     }
-
-
-    private class FichaModeloAdapter extends ArrayAdapter<FichaModelo> {
-        FichaModeloAdapter(ArrayList<FichaModelo> fichaModeloAdapter) {
-            super(ListaFichas.this, R.layout.fichamodelocolumna, R.id.fichamodelo_fecha, fichaModeloAdapter);
-        }
-
-        @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
-            convertView = super.getView(position, convertView, parent);
-            FichaModelo fichaModelo = getItem(position);
-            TextView fechaFicha = (TextView) convertView.findViewById(R.id.fichamodelo_fecha);
-            fechaFicha.setText(fichaModelo.getFecha());
-            return convertView;
-        }
-    }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -160,15 +110,29 @@ public class ListaFichas extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-
-    private void addFichaModelo(){
+    private void addFichaModelo() {
         FichaModelo nuevaFicha = new FichaModelo();
         nuevaFicha.setFecha("8/8/88");
-        mUsuario.getFichas().add(nuevaFicha);
+        mListFichas.add(nuevaFicha);
         ((BaseAdapter) mListaVista.getAdapter()).notifyDataSetChanged();
     }
 
     private void mensaje(String mensaje) {
         Log.i(TAG, mensaje);
+    }
+
+    private class FichaModeloAdapter extends ArrayAdapter<FichaModelo> {
+        FichaModeloAdapter(ArrayList<FichaModelo> fichaModeloAdapter) {
+            super(ListaFichas.this, R.layout.fichamodelocolumna, R.id.fichamodelo_fecha, fichaModeloAdapter);
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            convertView = super.getView(position, convertView, parent);
+            FichaModelo fichaModelo = getItem(position);
+            TextView fechaFicha = convertView.findViewById(R.id.fichamodelo_fecha);
+            fechaFicha.setText(fichaModelo.getFecha());
+            return convertView;
+        }
     }
 }

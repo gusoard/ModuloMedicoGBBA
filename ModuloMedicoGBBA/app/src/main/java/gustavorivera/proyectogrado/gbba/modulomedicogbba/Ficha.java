@@ -20,10 +20,13 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Locale;
 
+import gustavorivera.proyectogrado.gbba.modulomedicogbba.controller.Bluetooth;
+import gustavorivera.proyectogrado.gbba.modulomedicogbba.model.FichaModelo;
+
 /**
  * Created by gustavo on 23/03/16.
  */
-public class Ficha extends AppCompatActivity {
+public class Ficha extends AppCompatActivity{
 
 
     /*
@@ -73,7 +76,7 @@ public class Ficha extends AppCompatActivity {
         setContentView(R.layout.ficha);
 
 
-        Bluetooth.gethandler(mHandler);
+        // Bluetooth.gethandler(mHandler);
 
         mFichaModelo = (FichaModelo) getIntent().getSerializableExtra(EXTRA);
 
@@ -254,37 +257,37 @@ public class Ficha extends AppCompatActivity {
          */
 
         // ALTURA
-        mMedirAltura.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                if (isBaseLista) {
-                    // Mide la Altura
-
-                    if (Bluetooth.hiloConectado != null) {
-                        mInstruccion = selectAltura;
-                        mensajeToast("Quiero Altura");
-                        Bluetooth.hiloConectado.write(mInstruccion);
-                    }else {
-                        mensajeToast("Debe iniciar el BT");
-                    }
-
-                } else {
-                    // Mide la Base
-
-                    if (Bluetooth.hiloConectado != null) {
-                        mensajeToast("Quiero Base");
-                        mInstruccion = selectBase;
-                        Bluetooth.hiloConectado.write(mInstruccion);
-                    }else {
-                        mensajeToast("Debe iniciar el BT");
-                    }
-
-
-                }
-
-            }
-        });
+//        mMedirAltura.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//
+//                if (isBaseLista) {
+//                    // Mide la Altura
+//
+//                    if (Bluetooth.hiloConectado != null) {
+//                        mInstruccion = selectAltura;
+//                        mensajeToast("Quiero Altura");
+//                        Bluetooth.hiloConectado.write(mInstruccion);
+//                    }else {
+//                        mensajeToast("Debe iniciar el BT");
+//                    }
+//
+//                } else {
+//                    // Mide la Base
+//
+//                    if (Bluetooth.hiloConectado != null) {
+//                        mensajeToast("Quiero Base");
+//                        mInstruccion = selectBase;
+//                        Bluetooth.hiloConectado.write(mInstruccion);
+//                    }else {
+//                        mensajeToast("Debe iniciar el BT");
+//                    }
+//
+//
+//                }
+//
+//            }
+//        });
 
         // ESPIROMETRO
         mMedirEsp.setOnClickListener(new View.OnClickListener() {
@@ -315,7 +318,7 @@ public class Ficha extends AppCompatActivity {
             public void onClick(View v) {
                 // Start Activity con opcion de BT
 
-                startActivity(new Intent(Ficha.this,FichaGrafica.class));
+                startActivity(new Intent(Ficha.this, FichaGrafica.class));
 
             }
         });
@@ -334,110 +337,110 @@ public class Ficha extends AppCompatActivity {
 // TODO REMOVER EL SUPPRESS LINT CUANDO RESUELVA EL LEAK
 
     @SuppressLint("HandlerLeak")
-    Handler mHandler = new Handler() {
-
-        @Override
-        public void handleMessage(Message msj) {
-            super.handleMessage(msj);
-
-            switch (msj.what) {
-                case Bluetooth.SUCCESS_CONNECT:
-                    Bluetooth.hiloConectado = new Bluetooth.ConnectedThread((BluetoothSocket) msj.obj);
-                    mensajeToast("Conectado");
-                    String s = "Conectado bien";
-                    Bluetooth.hiloConectado.start();
-                    break;
-                case Bluetooth.MESSAGE_READ:
-
-                    byte[] bufferLectura = (byte[]) msj.obj;
-
-
-
-                    /**
-                     *
-                     * STRING(byte DATA, int OFFSET, int BYTECOUNT)
-                     * BYTE COUNT DEBERIA SER DINAMICO O UN NUMERO FIJO QUE BASTE PARA TODOS LOS DATOS
-                     * SIN IMPORTAR LA MEDICION QUE SE HAGA
-                     *
-                     * */
-                    String stringEntrada = new String(bufferLectura, 0, 5);
-
-                    mensajeLog(stringEntrada);
-                    switch (mInstruccion) {
-                        case selectBase:
-                            // Almacenar Base
-                            mensajeLog("Recibiendo Base");
-                            if (stringEntrada.indexOf('b') == 0 && stringEntrada.indexOf(".") == 2) {
-                                stringEntrada = stringEntrada.replace("b", "");
-                                if (isDoubleNumber(stringEntrada)) {
-                                    mBase = Double.parseDouble(stringEntrada);
-                                    isBaseLista = true;
-                                }
-                            }
-                            break;
-                        case selectAltura:
-                            // Valor
-                            mensajeLog("Recibiendo Distancia");
-                            if (isBaseLista) {
-                                // Just in case..
-
-                                if (stringEntrada.indexOf('a') == 0 && stringEntrada.indexOf(".") == 2) {
-                                    stringEntrada = stringEntrada.replace("a", "");
-                                    if (isDoubleNumber(stringEntrada)) {
-                                        mDistancia = Double.parseDouble(stringEntrada);
-
-                                        if (mBase > mDistancia) {
-                                            mAltura = mBase - mDistancia;
-                                        }
-
-                                        mMedirAltura.setText(String.format("%f" + R.string.centimetros, mAltura));
-
-
-                                    }
-                                }
-
-                            }
-
-                            break;
-                        case selectSpO2:
-                            // Valor
-
-                            break;
-                        case selectECG:
-                            // Grafica
-                            // Sacar ppm una vez termine
-
-                            break;
-                        case selectEspirometro:
-                            // Grafica
-
-                            break;
-                        default:
-                    }
-
-
-                    /**
-                     *
-                     * REVISAR
-                     * Si no me equivoco, con esto se verifica con que se inicia y ubica el punto
-                     *
-                     * */
-                    break;
-                default:
-                    break;
-            }
-        }
-
-        public boolean isDoubleNumber(String num) {
-            try {
-                Double.parseDouble(num);
-            } catch (NumberFormatException nfe) {
-                return false;
-            }
-            return true;
-        }
-
-    };
+//    Handler mHandler = new Handler() {
+//
+//        @Override
+//        public void handleMessage(Message msj) {
+//            super.handleMessage(msj);
+//
+//            switch (msj.what) {
+//                case Bluetooth.SUCCESS_CONNECT:
+//                    Bluetooth.hiloConectado = new Bluetooth.ConnectedThread((BluetoothSocket) msj.obj);
+//                    mensajeToast("Conectado");
+//                    String s = "Conectado bien";
+//                    Bluetooth.hiloConectado.start();
+//                    break;
+//                case Bluetooth.MESSAGE_READ:
+//
+//                    byte[] bufferLectura = (byte[]) msj.obj;
+//
+//
+//
+//                    /**
+//                     *
+//                     * STRING(byte DATA, int OFFSET, int BYTECOUNT)
+//                     * BYTE COUNT DEBERIA SER DINAMICO O UN NUMERO FIJO QUE BASTE PARA TODOS LOS DATOS
+//                     * SIN IMPORTAR LA MEDICION QUE SE HAGA
+//                     *
+//                     * */
+//                    String stringEntrada = new String(bufferLectura, 0, 5);
+//
+//                    mensajeLog(stringEntrada);
+//                    switch (mInstruccion) {
+//                        case selectBase:
+//                            // Almacenar Base
+//                            mensajeLog("Recibiendo Base");
+//                            if (stringEntrada.indexOf('b') == 0 && stringEntrada.indexOf(".") == 2) {
+//                                stringEntrada = stringEntrada.replace("b", "");
+//                                if (isDoubleNumber(stringEntrada)) {
+//                                    mBase = Double.parseDouble(stringEntrada);
+//                                    isBaseLista = true;
+//                                }
+//                            }
+//                            break;
+//                        case selectAltura:
+//                            // Valor
+//                            mensajeLog("Recibiendo Distancia");
+//                            if (isBaseLista) {
+//                                // Just in case..
+//
+//                                if (stringEntrada.indexOf('a') == 0 && stringEntrada.indexOf(".") == 2) {
+//                                    stringEntrada = stringEntrada.replace("a", "");
+//                                    if (isDoubleNumber(stringEntrada)) {
+//                                        mDistancia = Double.parseDouble(stringEntrada);
+//
+//                                        if (mBase > mDistancia) {
+//                                            mAltura = mBase - mDistancia;
+//                                        }
+//
+//                                        mMedirAltura.setText(String.format("%f" + R.string.centimetros, mAltura));
+//
+//
+//                                    }
+//                                }
+//
+//                            }
+//
+//                            break;
+//                        case selectSpO2:
+//                            // Valor
+//
+//                            break;
+//                        case selectECG:
+//                            // Grafica
+//                            // Sacar ppm una vez termine
+//
+//                            break;
+//                        case selectEspirometro:
+//                            // Grafica
+//
+//                            break;
+//                        default:
+//                    }
+//
+//
+//                    /**
+//                     *
+//                     * REVISAR
+//                     * Si no me equivoco, con esto se verifica con que se inicia y ubica el punto
+//                     *
+//                     * */
+//                    break;
+//                default:
+//                    break;
+//            }
+//        }
+//
+//        public boolean isDoubleNumber(String num) {
+//            try {
+//                Double.parseDouble(num);
+//            } catch (NumberFormatException nfe) {
+//                return false;
+//            }
+//            return true;
+//        }
+//
+//    };
 
 
     private void mensajeToast(String mensaje) {

@@ -1,4 +1,8 @@
-package gustavorivera.proyectogrado.gbba.modulomedicogbba;
+package gustavorivera.proyectogrado.gbba.modulomedicogbba.model;
+
+import android.content.ContentValues;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -6,7 +10,7 @@ import java.util.ArrayList;
 /**
  * Created by gustavo on 23/03/16.
  */
-public class FichaModelo implements Serializable {
+public class FichaModelo implements Serializable, BaseModel {
 
     private Integer spo2;
     private Double altura;
@@ -73,5 +77,29 @@ public class FichaModelo implements Serializable {
 
     public void setEcg(ArrayList<Float> ecg) {
         this.ecg = ecg;
+    }
+
+    @Override
+    public void setId(int i) {
+
+    }
+
+    @Override
+    public int getId() {
+        return 0;
+    }
+
+
+    @NotNull
+    @Override
+    public String getTableName() {
+        return ConstantsKt.getFICHAS_TABLE_NAME();
+    }
+
+
+    @NotNull
+    @Override
+    public ContentValues getContentValues() {
+        return null;
     }
 }

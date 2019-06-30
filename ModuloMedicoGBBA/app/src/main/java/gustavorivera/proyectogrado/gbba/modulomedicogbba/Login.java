@@ -7,12 +7,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
-import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 
 import java.lang.ref.WeakReference;
+
+import gustavorivera.proyectogrado.gbba.modulomedicogbba.controller.AppController;
+import gustavorivera.proyectogrado.gbba.modulomedicogbba.model.Usuario;
 
 /**
  * Created by gustavo on 24/03/16.
@@ -23,7 +25,7 @@ public class Login extends AppCompatActivity {
     // https://stackoverflow.com/questions/6055984/display-activity-from-bottom-to-top
 
     private final static String TAG_ACTIVITY = "Login Activity: ";
-    // UI references.
+    public final static String USUARIO_SELECCIONADO = "USUARIO_SELECCIONADO";
     private EditText mNombreLogin;
     private EditText mCedulaLogin;
     private UserVerificationTask mVerificationTask;
@@ -107,7 +109,7 @@ public class Login extends AppCompatActivity {
 
         private final String mEmail;
         private final String mPassword;
-        private int mIdUsuario = -1;
+        private Usuario usuarioIngresado = null;
         private WeakReference<Login> loginReference;
 
 
@@ -129,9 +131,9 @@ public class Login extends AppCompatActivity {
                  */
 
                 // Suggested call -> GBBAWebApi.getUserVerification(mEmail, mPassword)
+                usuarioIngresado = AppController.Companion.getInstance().getFichasDatabaseHandler().getUsuarioLogIn(mEmail, mPassword);
 
-                // mIdUsuario = DatabaseHandler.getHistorialUsuario(mEmail, mPassword)
-                result = mIdUsuario > 0;
+                result = usuarioIngresado != null;
 
             } catch (InterruptedException e) {
                 //TODO LogException
@@ -155,11 +157,7 @@ public class Login extends AppCompatActivity {
 
             if (success) {
                 Intent i = new Intent(loginActivity, ListaFichas.class);
-
-                // Usuario usuarioIngresado = DatabaseHandler.getHistorialUsuario(idUsuarioSeleccionado)
-
-                // i.putExtra(PACIENTE_SELECCIONADO, usuarioIngresado);
-
+                 i.putExtra(USUARIO_SELECCIONADO, usuarioIngresado);
                 loginActivity.startActivity(i);
                 loginActivity.finish();
             } else {
